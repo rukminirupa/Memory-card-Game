@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memory Game</title>
+
+<style>
+body{text-align:center;font-family:Arial}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,100px);
+gap:10px;
+justify-content:center;
+}
+
+.card{
+width:100px;
+height:100px;
+background:#444;
+color:white;
+font-size:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.flipped{
+background:orange;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Memory Card Matching Game</h2>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+const cards=["A","A","B","B","C","C","D","D"]
+
+cards.sort(()=>0.5-Math.random())
+
+let first=null
+let second=null
+
+const grid=document.getElementById("grid")
+
+cards.forEach((letter,index)=>{
+
+const card=document.createElement("div")
+card.className="card"
+card.dataset.letter=letter
+
+card.onclick=function(){
+
+if(first && second) return
+
+card.innerText=letter
+card.classList.add("flipped")
+
+if(!first){
+first=card
+}else{
+second=card
+
+if(first.dataset.letter==second.dataset.letter){
+first=null
+second=null
+}else{
+
+setTimeout(()=>{
+first.innerText=""
+second.innerText=""
+first.classList.remove("flipped")
+second.classList.remove("flipped")
+first=null
+second=null
+},800)
+
+}
+
+}
+
+}
+
+grid.appendChild(card)
+
+})
+
+</script>
+
+</body>
+</html>
